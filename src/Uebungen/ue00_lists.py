@@ -1,8 +1,3 @@
 import random
 
-numbers = []
-
-for i in range(10):
-    numbers.append(random.randint(-10, 10))
-
-print(numbers)
+print([random.randint(-10, 10) for x in range (10)])
