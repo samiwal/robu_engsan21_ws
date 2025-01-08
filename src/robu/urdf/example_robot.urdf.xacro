@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+
+    <!-- Material Definitions -->
+    <material name="grey">
+        <color rgba="0.2 0.2 0.2 1"/>
+    </material>
+
+   <xacro:include filename="Testcollision.urdf.xacro" />
+
+    <!-- Links and Joints -->
+    <link name="world" />
+
+    <link name="ground">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robu/stl-file/base.stl" scale = "0.01 0.01 0.01" />
+                <!--mesh filename="package://robu/stl-file/base.stl"/   ADD SCALE FOR PROPER SIZING-->
+            </geometry>
+            <material name="grey" />
+        </visual>
+        <collision>
+            <origin xyz="0.9 -6.5 3.2" rpy="0 0 0" />
+            <geometry>
+                <box size="1.1 1.25 6.4" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01" />
+        </inertial>
+    </link>
+
+    <link name="crawler">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robu/stl-file/crawler.stl" scale = "0.01 0.01 0.01" />
+            </geometry>
+            <material name="grey" />
+        </visual>
+        <collision>
+            <origin xyz="7.175 -4.7 7.70" rpy="0 0 0" />
+            <geometry>
+                <box size="1.1 2 1.2" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01" />
+        </inertial>
+    </link>
+
+        <link name="arm">
+        <visual>
+            <origin xyz="0.05 1.90 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robu/stl-file/arm.stl" scale = "0.01 0.01 0.01" />
+            </geometry>
+            <material name="grey" />
+        </visual>
+        <collision>
+            <origin xyz="0.08 1.25 0.05" rpy="0 0 0" />
+            <geometry>
+                <box size="1.1 2.5 1.2" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01" />
+        </inertial>
+    </link>
+
+        <link name="grabber">
+        <visual>
+            <origin xyz="0.083 0.15 -0.1" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://robu/stl-file/grabber.stl" scale = "0.01 0.01 0.01" />
+            </geometry>
+            <material name="grey" />
+        </visual>
+        <collision>
+            <origin xyz="0.1 0.6 -0.1" rpy="0 0 0" />
+            <geometry>
+                <box size="1.1 1.2 2.6" />
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01" />
+        </inertial>
+    </link>
+
+    <!-- Transformation: world to map -->
+    <joint name="Ground_to_map" type="fixed">
+        <parent link="world" />
+        <child link="ground" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+    </joint>
+
+    <!-- Transformation: ground to crawler -->
+    <joint name="Ground_to_crawler" type="prismatic">
+        <parent link="ground" />
+        <child link="crawler" />
+        <origin rpy="0 0 0" xyz="-6.275 -0.80 -4.00" />
+        <axis xyz="0 0 1"/>
+        <limit lower = "-2.80" upper = "0.60" velocity="1.00" effort="100"/>
+    </joint>
+
+        <!-- Transformation: crawler to arm -->
+    <joint name="Crawler_to_arm" type="revolute">
+       
+        <parent link="crawler" />
+        <child link="arm" />
+        <origin rpy="0 0 0" xyz="7.10 -4.25 7.65" />
+        <axis xyz="0 0 1" />
+        <limit lower = "-2.09" upper = "2.09" velocity="100" effort="100"/>
+        <!--dynmic damping="damping_value" friction="friction_value"/-->
+    </joint>
+
+        <!-- Transformation: arm to grabber -->
+    <joint name="Arm_to_grabber" type="revolute">
+       
+        <parent link="arm" />
+        <child link="grabber" />
+        <origin rpy="0 0 0" xyz="-0.021 2 -0.573" />
+        <axis xyz="0 0 1"/>
+        <limit lower = "-2.09" upper = "2.09" velocity="100" effort="100"/>
+        <!--dynmic damping="damping_value" friction="friction_value"/-->
+    </joint>
+
+</robot>
