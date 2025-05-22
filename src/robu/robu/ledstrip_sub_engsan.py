@@ -9,8 +9,6 @@ def main():
         node_ledstrip.create_subscription(UInt8MultiArray,"team4",callback_team,10)
 
         rclpy.spin(node_ledstrip)#Node Ausführen,Programm bleibt hängen
-        node_ledstrip.destroy_node()
-        rclpy.shutdown()
     except KeyboardInterrupt as e:
         print("Sia haben Strg+C gedrückt!")
     finally:
@@ -20,8 +18,13 @@ def main():
         except Exception as e:
             pass
 def callback_user(msg:String):
+    global node_ledstrip
     print(f"User: {msg.data}")
+    node_ledstrip.get_logger().info(f"User: {msg.data}")
 def callback_team(msg:UInt8MultiArray):
+    global node_ledstrip
     print(f"Team_LEDs: {msg.data}")
+    node_ledstrip.get_logger().info(f"Team_LEDs: {msg.data}")
+
 if __name__=="__main__":
     main()
