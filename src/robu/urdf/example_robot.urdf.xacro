@@ -16,7 +16,6 @@
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
                 <mesh filename="package://robu/stl-file/base.stl" scale = "0.01 0.01 0.01" />
-                <!--mesh filename="package://robu/stl-file/base.stl"/   ADD SCALE FOR PROPER SIZING-->
             </geometry>
             <material name="grey" />
         </visual>

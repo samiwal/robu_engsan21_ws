@@ -26,6 +26,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'remotectrl=robu.remote_control:main',
+            'led_strip_pub=robu.plf01_ledstrip_pub_engsan21:main'
+            'led_strip_sub=robu.ledstrip_sub_engsan:main'
         ],
     },
 )
