@@ -1,6 +1,7 @@
 from setuptools import find_packages, setup
-
-package_name = 'motor_ctrl'
+from glob import glob
+import os
+package_name = 'ledctrl'
 
 setup(
     name=package_name,
@@ -10,19 +11,18 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'launch'), glob('launch/*launch.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='samuel',
-    maintainer_email='engsan21@htl-kaindorf.at',
+    maintainer='robu',
+    maintainer_email='li@htl-kaindorf.at',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'publisher=motor_ctrl.int_publisher:main',
-            'subscriber=motor_ctrl.motor_subscriber:main',
-            'motor_ctrl=motor_ctrl.motor_ctrl:main',
+            'ledctrl=ledctrl.ledctrl:main',
         ],
     },
 )

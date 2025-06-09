@@ -1,0 +1,4 @@
+int8 side
+uint8 brightness_percent
+---
+bool status

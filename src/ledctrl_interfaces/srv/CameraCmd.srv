@@ -1,0 +1,9 @@
+string cmd          #turn signal, detection  indication, warn-signal, 
+int8 side           #left, right, both
+uint8[] color_on    # RGBW values
+uint8[] color_off   # RGBW values
+float32 duration_on  # duration in seconds
+float32 duration_off # duration in seconds
+int8 repetitions
+---
+bool status                 
