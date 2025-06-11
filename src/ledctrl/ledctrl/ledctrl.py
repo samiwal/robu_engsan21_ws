@@ -73,7 +73,7 @@ def new_led_strip(numleds:int) -> Adafruit_NeoPixel:
 
     LED_INVERT = False      #LEDs sind direkt mit dem Raspberry verbunden (kein Transistor)
     LED_CHANNEL = 0         #0 or 1 -> 0 für PWM
-    LED_STRIP = ws.WS2811_STRIP_GRB
+    LED_STRIP = ws.SK7812_STRIP_GRBW
 
     return  Adafruit_NeoPixel(numleds,
                               LED_PIN,
@@ -117,8 +117,8 @@ class LEDCtrl(Node):
                                      ("default_color", [0, 0, 0, 0])
                                      ])
         
-        self._cam_left_pos = list(range(22,30,1))
-        self._cam_right_pos = list(range(14,22,1))
+        self._cam_left_pos = [22, 23, 24, 25, 29]#list(range(22,30,1))
+        self._cam_right_pos = [14,15,16,17,21,20,19,18] #list(range(14,22,1))
         self._colorsensor_pos = [12,13]
         self._chassis_pos = list(range(0,14,1))
 

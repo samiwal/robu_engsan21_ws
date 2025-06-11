@@ -25,7 +25,9 @@
   <h1>Motorsteuerung</h1>
   <button onclick="sendVelocity(5)">⬆️</button>
   <button onclick="sendVelocity(-5)">⬇️</button>
-  <button onclick="sendLauflicht()">Lauflicht</button>
+  <button onclick="setVelocity(0)">Set 0</button>
+  <button onclick="sendLeftLauflicht()">Left Lauflicht</button>
+  <button onclick="sendRightLauflicht()">Right Lauflicht</button>
 
   <script>
     // Verbindung zu rosbridge (IP und Port ggf. anpassen)
@@ -53,6 +55,12 @@
     });
 
     let currentVel = 0;
+    function setVelocity(set){
+      currentVel = set;
+      const message = new ROSLIB.Message({ data: currentVel });
+      publisher.publish(message);
+      console.log('Gesendet:', currentVel);
+    }
 
     function sendVelocity(delta) {
       currentVel = Math.max(-125, Math.min(125, currentVel + delta));
@@ -68,15 +76,30 @@
       serviceType: 'ledctrl_interfaces/srv/CameraCmd'
     });
 
-    function sendLauflicht() {
+    function sendLeftLauflicht() {
       const request = new ROSLIB.ServiceRequest({
         cmd: 'turn',
         side: 0,
-        color_on: [255, 0, 0, 0],
-        color_off: [0, 255, 0, 0],
+        color_on: [100, 0, 0, 0],
+        color_off: [0, 100, 0, 0],
         duration_on: 0.2,
         duration_off: 0.2,
-        repetitions: 5
+        repetitions: 4
+      });
+
+      lauflichtClient.callService(request, function (result) {
+        console.log('Lauflicht-Response:', result);
+      });
+    }
+    function sendRightLauflicht() {
+      const request = new ROSLIB.ServiceRequest({
+        cmd: 'turn',
+        side: 1,
+        color_on: [100, 0, 0, 0],
+        color_off: [0, 100, 0, 0],
+        duration_on: 0.2,
+        duration_off: 0.2,
+        repetitions: 4
       });
 
       lauflichtClient.callService(request, function (result) {
